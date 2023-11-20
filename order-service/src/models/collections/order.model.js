@@ -47,6 +47,11 @@ const orderSchema = new mongoose.Schema(
         }
     },
     {
+        toJSON: {
+            transform(doc, ret){
+                delete ret.__v;
+            }
+        },
         timestamps:true,
     }
     );
