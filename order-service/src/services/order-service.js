@@ -1,9 +1,19 @@
-const {OrderRepository} = require("../models/repository")
+
+const {OrderRepository} = require("../models")
 const {FormateDate} = require("../utils")
 class OrderService {
     
     constructor(){
         this.repository = new OrderRepository();
+    }
+
+    async PlaceOrder(userInput){
+
+        const { customerId, productId,order_date,delivery_date,status_order,discount,total_price,shipping_charges,notes,terms,attach_file } = userInput
+
+        const orderResult = await this.repository.CreateNewOrder(customerId, productId,order_date,delivery_date,status_order,discount,total_price,shipping_charges,notes,terms,attach_file);
+        
+        return FormateDate(orderResult);
     }
 
     async GetOrders(customerId){
@@ -17,3 +27,4 @@ class OrderService {
         return FormateDate(orders)
     }
 }
+module.exports = OrderService;

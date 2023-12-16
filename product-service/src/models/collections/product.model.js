@@ -1,17 +1,16 @@
-const {model,Schema} = require("mongoose");
+const {model,Schema,default: mongoose} = require("mongoose");
 
 const productSchema = new mongoose.Schema(
     {
-        router_id:{
-            type:Schema.Types.ObjectId,
-            required:[true,"Router ID is required"],
-            ref:"Router"
-        },
         sku:{
             type: String,
             required: [true, "Please provide SKU"],
         },
-        ubc_number:{
+        product_name:{
+            type:String,
+            required: [true, "Please provide name product"],
+        },
+        upc_number:{
             type: String,
             required: [true, "Please provide UBC Number"],
         },
@@ -19,17 +18,24 @@ const productSchema = new mongoose.Schema(
             type:String,
             required:[true,"Please provide description"],
         },
+        category:[
+            { type: Schema.Types.ObjectId, ref: 'category', require: true }
+        ]
+        ,
+        unit:{
+            type:String,
+            required: [true, "Please provide  unit"],
+            enum:["box","cm","dz","ft","g","in","kg","ib","mg","ml","m","psc"]
+
+        },
         price:{
             type:Number,
-            required: [true, "Please provide order date"],
+            required: [true, "Please provide price of product"],
         },
         stock_quantity: {
             type: Number,
-            required: [true, "Please provide total price"],
+            required: [true, "Please provide quantity"],
             default:0
-        },
-        category: {
-            type: String,
         },
         dimensions:[
             {
@@ -73,4 +79,4 @@ const productSchema = new mongoose.Schema(
         timestamps:true,
     }
     );
-module.exports = model("Products", productSchema);
+module.exports = model("products", productSchema);

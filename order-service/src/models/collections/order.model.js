@@ -1,4 +1,4 @@
-const {model,Schema} = require("mongoose");
+const {model,Schema,default:mongoose} = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
     {
@@ -7,11 +7,11 @@ const orderSchema = new mongoose.Schema(
             required:[true,"Customer ID is required"],
             ref:"Customer"
         },
-        router_id:{
-            type:Schema.Types.ObjectId,
-            required:[true,"Router ID is required"],
-            ref:"Router"
-        },
+        // router_id:{
+        //     type:Schema.Types.ObjectId,
+        //     required:[true,"Router ID is required"],
+        //     ref:"Router"
+        // },
         product_id:{
             type:Schema.Types.ObjectId,
             required:[true,"Product ID is required"],
@@ -25,25 +25,32 @@ const orderSchema = new mongoose.Schema(
             type: Date,
             required: [true, "Please provide order date"],
         },
-        status:{
+        status_order:{
             type:String,
             enum:["Draft","Confirmed","Closed"],
-            default:"Confirmed",
+        },
+        discount: {
+            type: Number,
+            required: [true, "Please provide total price"],
+            default:0
         },
         total_price: {
             type: Number,
             required: [true, "Please provide total price"],
             default:0
         },
-        payment_status: {
-            type:String,
-            enum:["Unpaid","Pending","Authorized","Canceled","Expired","Paid","Failed"],
-            default:"Pending",
-        },
-        quantity:{
+        shipping_charges:{
             type:Number,
-            required:[true,"Please provide quantity"],
-            default:120
+            default:0
+        },
+        notes:{
+            type:String,
+        },
+        terms:{
+            type:String
+        },
+        attach_file:{
+            type:String
         }
     },
     {

@@ -1,11 +1,7 @@
 const {model,Schema, default: mongoose} = require('mongoose');
 
 const customerSchema = new mongoose.Schema({
-    router_id:{
-        type:Schema.Types.ObjectId,
-        required:[true,"Router ID is required"],
-        ref:"Router"
-    },
+
     user_name:{
         type:String,
         required:[true,"Please provide user name"],
@@ -20,11 +16,11 @@ const customerSchema = new mongoose.Schema({
     },
     full_name:[
         {
-            first_Name:{
+            first_name:{
                 type:String,
                 required:[true,"Please provide first name"],
             },
-            last_Name:{
+            last_name:{
                 type:String,
                 required:[true,"Please provide last name"],
             },
@@ -33,50 +29,22 @@ const customerSchema = new mongoose.Schema({
     ],
     phone_number: {
         type:Number,
-        required:[true,"Please provide phone number"]
     },
     address:[
-        {
-            street:{
-                type:String,
-                required:[true,"Please provide street"],
-            },
-            ward:{
-                type:String,
-                required:[true,"Please provide ward"],
-            },
-            district:{
-                type:String,
-                required:[true,"Please provide district"],
-            },
-            state:{
-                type:String,
-                required:[true,"Please provide strate"],
-            },
-            city:{
-                type:String,
-                required:[true,"Please provide city"],
-            },
-            country:{
-                type:String,
-                required:[true,"Please provide country"]
-            }
-        }
+        { type: Schema.Types.ObjectId, ref: 'address', require: true }
     ],
     role:[
         {
-            name:{
+            role_name:{
                 type:String,
-                required:[true,"Please provide name"],
             },
             description:{
                 type:String,
-                required:[true,"Please provide description"],
+            
             },
             status:{
                 type:String,
                 enum:["Active","Disabled"],
-                required:[true],
             },
         }
     ],
@@ -90,15 +58,20 @@ const customerSchema = new mongoose.Schema({
     gender:{
         type: String,
         enum:["Male","Female"]
+    },
+    salt:{
+        type:String
     }
 },
 {
     toJSON: {
         transform(doc, ret){
+            delete ret.password;
+            delete ret.salt;
             delete ret.__v;
         }
     },
     timestamps:true,
 }
 );
-module.exports = model("Customer", customerSchema);
+module.exports = model("customer", customerSchema);

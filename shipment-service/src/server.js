@@ -8,7 +8,11 @@ const StartServer = async() => {
     const app = express();
     
     await databaseConnection();
-    
+    app.use('/',(req,res,next)=>{
+        return res.status(200).json({
+            "msg":"This site is shipment"
+        })
+    })
     app.listen(PORT,() =>{
         console.log('\x1b[4m\x1b[36m%s\x1b[0m',`Server running on http://localhost:${PORT}`);
     })
